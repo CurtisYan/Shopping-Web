@@ -1,0 +1,6 @@
+com\yourcompany\shoppingweb\dao\UserDao.class
+com\yourcompany\shoppingweb\servlet\LogoutServlet.class
+com\yourcompany\shoppingweb\servlet\RegisterServlet.class
+com\yourcompany\shoppingweb\filter\AuthFilter.class
+com\yourcompany\shoppingweb\servlet\LoginServlet.class
+com\yourcompany\shoppingweb\model\User.class
