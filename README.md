@@ -3,6 +3,18 @@
 ## 项目简介
 本项目为大二Java Web课程设计，采用Servlet+JSP+Spring+JDBC实现一个简单的购物网站。
 
+![](说明文档/img/main.png)
+
+
+
+![](说明文档/img/login.png)
+
+
+
+![](说明文档/img/cart.png)
+
+![](说明文档/img/order.png)
+
 ## 主要技术
 - Servlet/JSP
 - Spring Context
