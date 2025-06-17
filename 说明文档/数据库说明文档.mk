@@ -1,0 +1,97 @@
+# 数据库设计说明文档
+
+## 一、数据库表结构总览
+
+本项目共设计6张核心表，分别为：
+
+- user（用户表）
+- category（商品分类表）
+- product（商品表）
+- orders（订单表）
+- order_item（订单明细表）
+- （购物车数据保存在Session，不单独建表）
+
+---
+
+## 二、各表结构与字段说明
+
+### 1. 用户表 user
+
+| 字段名    | 类型           | 说明         |
+|-----------|----------------|--------------|
+| id        | INT, PK, AI    | 用户ID       |
+| username  | VARCHAR(50)    | 用户名，唯一 |
+| password  | VARCHAR(100)   | 密码         |
+
+### 2. 商品分类表 category
+
+| 字段名 | 类型         | 说明     |
+|--------|--------------|----------|
+| id     | INT, PK, AI  | 分类ID   |
+| name   | VARCHAR(50)  | 分类名称 |
+
+### 3. 商品表 product
+
+| 字段名      | 类型           | 说明           |
+|-------------|----------------|----------------|
+| id          | INT, PK, AI    | 商品ID         |
+| name        | VARCHAR(100)   | 商品名称       |
+| price       | DECIMAL(10,2)  | 价格           |
+| category_id | INT            | 分类ID         |
+| description | VARCHAR(255)   | 商品描述       |
+| is_hot      | BOOLEAN        | 是否热门       |
+| stock       | INT            | 库存           |
+
+### 4. 订单表 orders
+
+| 字段名      | 类型           | 说明         |
+|-------------|----------------|--------------|
+| id          | INT, PK, AI    | 订单ID       |
+| user_id     | INT            | 用户ID       |
+| order_date  | DATETIME       | 下单时间     |
+| total_amount| DECIMAL(10,2)  | 总金额       |
+| status      | VARCHAR(20)    | 订单状态     |
+
+### 5. 订单明细表 order_item
+
+| 字段名    | 类型           | 说明         |
+|-----------|----------------|--------------|
+| id        | INT, PK, AI    | 明细ID       |
+| order_id  | INT            | 订单ID       |
+| product_id| INT            | 商品ID       |
+| quantity  | INT            | 购买数量     |
+| price     | DECIMAL(10,2)  | 单价         |
+
+---
+
+## 三、表间关系
+
+- 一个用户（user）可以有多个订单（orders）
+- 一个订单（orders）可以有多条明细（order_item）
+- 一个商品（product）属于一个分类（category）
+- 订单明细（order_item）关联商品（product）
+
+---
+
+## 四、设计亮点
+
+- 商品表有 is_hot 字段，支持热门商品动态展示
+- 商品库存量(stock)与订单明细联动，下单时自动扣减库存
+- 所有主外键均有约束，保证数据一致性
+- 购物车数据保存在Session，简化表设计，提升性能
+
+---
+
+## 五、常用SQL示例
+
+```sql
+-- 查询所有商品及分类
+SELECT p.*, c.name AS category_name FROM product p JOIN category c ON p.category_id = c.id;
+
+-- 查询某用户所有订单
+SELECT * FROM orders WHERE user_id = ?;
+
+-- 查询某订单的所有明细
+SELECT * FROM order_item WHERE order_id = ?;
+```
+```
